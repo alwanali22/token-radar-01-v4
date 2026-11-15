@@ -1,0 +1,25 @@
+body { font-family: sans-serif; margin: 8px 20px; line-height: 1.35; color: #e8e8e8; background: #121212; }
+header { border-bottom: 2px solid #333; padding-bottom: 5px; }
+h1 { margin: 0.05em 0; font-size: 1.5em; }
+#value-check { margin: 3px 0; font-size: 0.88em; color: #90caf9; }
+#stats { margin: 3px 0; font-size: 0.88em; color: #aaa; }
+#research-summary { font-size: 0.9em; color: #b0bec5; max-width: 1300px; margin: 4px 0; }
+#controls { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+table { width: 100%; border-collapse: collapse; background: #1f1f1f; font-size: 0.88em; }
+th, td { border: 1px solid #333; padding: 4px 6px; text-align: left; }
+th { background: #333; cursor: pointer; color: #4fc3f7; }
+#research-note { margin-top: 24px; font-size: 0.92em; color: #cfd8dc; }
+#research-note h2 { font-size: 1.1em; color: #4fc3f7; }
+#detail-dialog { padding: 12px 18px; border: 1px solid #333; border-radius: 8px; max-width: 720px; max-height: 88vh; overflow-y: auto; background: #1f1f1f; color: #e8e8e8; }
+#detail-dialog h2 { margin: 4px 0 6px; }
+#detail-dialog h3 { margin: 8px 0 3px; color: #4fc3f7; font-size: 1em; }
+#detail-dialog p { margin: 4px 0; }
+#detail-dialog ul { margin: 4px 0; }
+#detail-dialog li { margin: 3px 0; }
+.factor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 18px; }
+footer { margin-top: 40px; font-size: 0.8em; color: #aaa; border-top: 1px solid #333; padding-top: 10px; }
+.watchlist-row { background-color: #263238; }
+#tabs button { padding: 8px 16px; cursor: pointer; background: #333; color: #e8e8e8; border: none; }
+#tabs button.active { background: #4fc3f7; color: #000; }
+a { color: #4fc3f7; }
+input, select { background: #1f1f1f; color: #e8e8e8; border: 1px solid #333; padding: 5px; }

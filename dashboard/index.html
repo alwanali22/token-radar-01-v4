@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Radar</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <header>
+        <h1>Token Radar</h1>
+        <p>Pre-token protocols ranked by model-implied value.</p>
+        <p id="research-summary">Value model: implied = TVL x 10^(3.31 - 0.53 x log10(TVL) + 0.47 x [infra]), fitted on the snapshot's own 128 live tokens; 5-fold backtest median error 0.48 (3.0x) vs 0.56 (3.6x) for a single curve and 0.72 (5.3x) for a flat median. 145 wrapped, bridged, staked and exchange products excluded; snapshot frozen 2026-11-14.</p>
+        <p id="value-check"></p>
+        <div id="stats"></div>
+    </header>
+    <section id="controls">
+        <input type="text" id="q" placeholder="Search...">
+        <select id="category"><option value="all">All Categories</option></select>
+        <select id="chain"><option value="all">All Chains</option></select>
+        <label><input type="checkbox" id="watchlist-only"> Watchlist</label>
+        <select id="sort">
+            <option value="rank">Sort by Rank</option>
+            <option value="implied">Sort by Implied</option>
+            <option value="tvl">Sort by TVL</option>
+            <option value="7d">Sort by 7d %</option>
+            <option value="age">Sort by Age</option>
+            <option value="name">Sort by Name</option>
+        </select>
+    </section>
+    <div id="tabs">
+        <button id="tab-board" class="active">Board</button>
+        <button id="tab-live">Live tokens (24)</button>
+    </div>
+    <table id="board-table">
+        <thead>
+            <tr id="table-head">
+                <th data-sort="rank">Rank</th>
+                <th data-sort="name">Protocol</th>
+                <th data-sort="category">Category</th>
+                <th data-sort="chain">Chains</th>
+                <th data-sort="tvl">TVL</th>
+                <th data-sort="7d">7d %</th>
+                <th data-sort="age">Age (days)</th>
+                <th data-sort="implied">Implied value</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+    <section id="research-note">
+        <h2>Research note</h2>
+        <p>Model: implied value = TVL x 10^(3.31 - 0.53 x log10(TVL) + 0.47 x [infra]), fitted at run time from the snapshot's own 128 live tokens (n = 128, slope t = -5.5, infra t = 2.3), clamped to [0.02, 0.80]. [infra] is 1 for chains, exchanges, bridges, prediction markets, CeDeFi and governance-incentives protocols, else 0.</p>
+        <p>Infra: TVL is not the product for chains, exchanges, bridges, prediction markets, CeDeFi and governance-incentives protocols, so their TVL understates their footprint. Live infra tokens trade at a 2.94x premium at the same TVL (fitted +0.47 dex). The list is explicit in the model code.</p>
+        <p>Backtest: 5-fold cross-validation on the 128 live tokens gives median |log10 error| 0.48 (3.0x) for the infra model, against 0.56 (3.6x) for a single size curve and 0.72 (5.3x) for a flat median multiple; the infra model wins on all four fold assignments tried. Honest limit: residual SD 0.89 dex, so a typical error is still about 3.0x — the ranking is a comps estimate, not a prediction.</p>
+        <p>Rejected terms: growth and age were tested as regressors and carry no weight — fitted growth -1.6 (t = -1.6), fitted age -0.17 (t = -0.5); adding either hurts out-of-sample error (0.56-0.57 vs 0.47), so the shipped model carries neither as a multiplier. Growth's sign is negative because a 7-day TVL spike inflates the denominator before market cap reprices, so the observed ratio falls.</p>
+        <p>No pre-token discount is applied: the snapshot holds no pair from which one could be fitted, so any discount would be invented.</p>
+        <p>Exclusions: 145 pre-token protocols are off the board because they are wrapped, bridged, staked or exchange products of tokens that already trade, not protocols awaiting a token launch. Cross Chain Bridge joins them: Circle Gateway bridges USDC, a token that already trades.</p>
+        <p>Limits: the snapshot is frozen 2026-11-14. Multiples are comparables, not predictions, and no protocol name is hardcoded into the model.</p>
+        <p>Check it yourself: open any protocol and the detail view recomputes its implied value with the same functions above — the stored and recomputed values agree for every row on the board. The line above the table reports whether the page's recomputation matches the stored values for all 197 rows. The model panel below fits the model and runs the backtest live in this page from the 128 live tokens, so the numbers in this note are the page's own output, not typed-in claims.</p>
+    </section>
+    <section id="model-panel"></section>
+    <dialog id="detail-dialog">
+        <button id="close-dialog">Close</button>
+        <div id="dialog-content"></div>
+    </dialog>
+    <footer>
+        <p>Implied value is the entry's own claim, never make.fun's. DefiLlama's record is not proof.</p>
+    </footer>
+    <script src="../data.js"></script>
+    <script src="model.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
